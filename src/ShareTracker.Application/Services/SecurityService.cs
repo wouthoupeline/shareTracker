@@ -14,18 +14,48 @@ public class SecurityService : ISecurityService
     }
 
     public async Task<Guid> CreateAsync(CreateSecurityRequest request)
-  {
-      var security = new Security
-      {
-          Id = Guid.NewGuid(),
-          Ticker = request.Ticker,
-          Name = request.Name,
-          Type = request.Type,
-          Exchange = request.Exchange,
-          Currency = request.Currency
-      };
+    {
+        var security = new Security
+        {
+            Id = Guid.NewGuid(),
+            Ticker = request.Ticker,
+            Name = request.Name,
+            Type = request.Type,
+            Exchange = request.Exchange,
+            Currency = request.Currency
+        };
 
-      await _repository.AddAsync(security);
-      return security.Id;
-  }
+        await _repository.AddAsync(security);
+        return security.Id;
+    }
+
+   public async Task<IEnumerable<SecurityResponse>> GetAllAsync()
+    {
+        var securities = await _repository.GetAllAsync();
+        return securities.Select(s => new SecurityResponse
+        {
+            Id = s.Id,
+            Ticker = s.Ticker,
+            Name = s.Name,
+            Type = s.Type,
+            Exchange = s.Exchange,
+            Currency = s.Currency
+        });
+    }
+
+    public async Task<SecurityResponse?> GetByIdAsync(Guid id)
+    {
+        var security = await _repository.GetByIdAsync(id);
+        if (security == null) return null;
+
+        return new SecurityResponse
+        {
+            Id = security.Id,
+            Ticker = security.Ticker,
+            Name = security.Name,
+            Type = security.Type,
+            Exchange = security.Exchange,
+            Currency = security.Currency
+        };
+    }
 }

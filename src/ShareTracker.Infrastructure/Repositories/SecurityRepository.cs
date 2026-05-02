@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using ShareTracker.Application.Interfaces;
 using ShareTracker.Domain.Entities;
 using ShareTracker.Infrastructure.Persistence;
@@ -17,5 +18,15 @@ public class SecurityRepository : ISecurityRepository
     {
         await _context.Securities.AddAsync(security);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<IEnumerable<Security>> GetAllAsync()
+    {
+        return await _context.Securities.ToListAsync();
+    }
+
+    public async Task<Security?> GetByIdAsync(Guid id)
+    {
+        return await _context.Securities.FindAsync(id);
     }
 }

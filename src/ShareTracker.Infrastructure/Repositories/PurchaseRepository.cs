@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using ShareTracker.Application.Interfaces;
 using ShareTracker.Domain.Entities;
 using ShareTracker.Infrastructure.Persistence;
@@ -17,5 +18,15 @@ public class PurchaseRepository : IPurchaseRepository
     {
         await _context.Purchases.AddAsync(purchase);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<IEnumerable<Purchase>> GetAllAsync()
+    {
+        return await _context.Purchases.ToListAsync();
+    }
+
+    public async Task<Purchase?> GetByIdAsync(Guid id)
+    {
+        return await _context.Purchases.FindAsync(id);
     }
 }

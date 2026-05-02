@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using ShareTracker.Application.Interfaces;
 using ShareTracker.Domain.Entities;
 using ShareTracker.Infrastructure.Persistence;
@@ -17,5 +18,15 @@ public class BrokerRepository : IBrokerRepository
     {
         await _context.Brokers.AddAsync(broker);
         await _context.SaveChangesAsync();
+    }
+
+        public async Task<IEnumerable<Broker>> GetAllAsync()
+    {
+        return await _context.Brokers.ToListAsync();
+    }
+
+    public async Task<Broker?> GetByIdAsync(Guid id)
+    {
+        return await _context.Brokers.FindAsync(id);
     }
 }

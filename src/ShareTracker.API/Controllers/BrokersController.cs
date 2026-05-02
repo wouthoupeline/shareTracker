@@ -21,4 +21,19 @@ public class BrokersController : ControllerBase
         var id = await _brokerService.CreateAsync(request);
         return CreatedAtAction(nameof(Create), new { id }, null);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var brokers = await _brokerService.GetAllAsync();
+        return Ok(brokers);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(Guid id)
+    {
+        var broker = await _brokerService.GetByIdAsync(id);
+        if (broker == null) return NotFound();
+        return Ok(broker);
+    }
 }
