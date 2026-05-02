@@ -1,12 +1,11 @@
-namespace ShareTracker.Domain.Entities;
+using ShareTracker.Domain.Enums;
 
-public class Purchase
+namespace ShareTracker.Application.DTOs;
+
+public class CreatePurchaseRequest
 {
-    public Guid Id { get; set; }
     public Guid SecurityId { get; set; }
-    public Security Security { get; set; } = null!;
     public Guid BrokerId { get; set; }
-    public Broker Broker { get; set; } = null!;
     public DateTime Date { get; set; }
     public decimal PricePerShare { get; set; }
     public decimal Quantity { get; set; }
