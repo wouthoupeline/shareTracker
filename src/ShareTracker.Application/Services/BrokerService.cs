@@ -28,9 +28,9 @@ public class BrokerService : IBrokerService
      public async Task<IEnumerable<BrokerResponse>> GetAllAsync()
     {
         var brokers = await _repository.GetAllAsync();
-        return brokers.Select(s => new BrokerResponse
+        return brokers.Select(b => new BrokerResponse
         {
-            Name = s.Name,
+            Name = b.Name,
         });
     }
 

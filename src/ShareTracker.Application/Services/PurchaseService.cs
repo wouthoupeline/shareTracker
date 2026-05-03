@@ -18,9 +18,9 @@ public class PurchaseService : IPurchaseService
         var purchase = new Purchase
         {
             Id = Guid.NewGuid(),
-            SecurityId = request.SecurityId,
-            BrokerId = request.BrokerId,
-            Date  = request.Date,
+            SecurityId = request.SecurityId!.Value,
+            BrokerId = request.BrokerId!.Value,
+            Date  = request.Date!.Value,
             PricePerShare = request.PricePerShare,
             Quantity = request.Quantity,
         };
@@ -32,14 +32,15 @@ public class PurchaseService : IPurchaseService
     public async Task<IEnumerable<PurchaseResponse>> GetAllAsync()
     {
         var securities = await _repository.GetAllAsync();
-        return securities.Select(s => new PurchaseResponse
+        return securities.Select(p => new PurchaseResponse
         {
-            Id = s.Id,
-            SecurityId = s.SecurityId,
-            BrokerId = s.BrokerId,
-            Date = s.Date,
-            PricePerShare = s.PricePerShare,
-            Quantity = s.Quantity
+            Id = p.Id,
+            SecurityTicker = p.Security.Ticker,
+            SecurityName = p.Security.Name,
+            BrokerName = p.Broker.Name,
+            Date = p.Date,
+            PricePerShare = p.PricePerShare,
+            Quantity = p.Quantity
         });
     }
 
@@ -51,8 +52,9 @@ public class PurchaseService : IPurchaseService
         return new PurchaseResponse
         {
             Id = purchase.Id,
-            SecurityId = purchase.SecurityId,
-            BrokerId = purchase.BrokerId,
+            SecurityTicker = purchase.Security.Ticker,
+            SecurityName = purchase.Security.Name,
+            BrokerName = purchase.Broker.Name,
             Date = purchase.Date,
             PricePerShare = purchase.PricePerShare,
             Quantity = purchase.Quantity
