@@ -1,6 +1,7 @@
 using ShareTracker.Application.DTOs;
 using ShareTracker.Application.Interfaces;
 using ShareTracker.Domain.Entities;
+using ShareTracker.Domain.Enums;
 
 namespace ShareTracker.Application.Services;
 
@@ -59,5 +60,14 @@ public class PurchaseService : IPurchaseService
             PricePerShare = purchase.PricePerShare,
             Quantity = purchase.Quantity
         };
+    }
+
+    public async Task<DeleteResult> DeleteAsync(Guid id)
+    {
+        var purchase = await _repository.GetByIdAsync(id);
+        if (purchase == null) return DeleteResult.NotFound;
+
+        await _repository.DeleteAsync(purchase);
+        return DeleteResult.Success;
     }
 }

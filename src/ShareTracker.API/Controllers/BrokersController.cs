@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ShareTracker.Application.DTOs;
 using ShareTracker.Application.Interfaces;
+using ShareTracker.Domain.Enums;
 
 namespace ShareTracker.API.Controllers;
 
@@ -35,5 +36,19 @@ public class BrokersController : ControllerBase
         var broker = await _brokerService.GetByIdAsync(id);
         if (broker == null) return NotFound();
         return Ok(broker);
+    }
+
+    
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var result = await _brokerService.DeleteAsync(id);
+        return result switch
+        {
+            DeleteResult.Success  => NoContent(),
+            DeleteResult.NotFound => NotFound(),
+            DeleteResult.Conflict => Conflict(),
+            _ => throw new InvalidOperationException()
+        };
     }
 }

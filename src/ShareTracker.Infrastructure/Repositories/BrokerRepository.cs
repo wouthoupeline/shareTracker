@@ -29,4 +29,15 @@ public class BrokerRepository : IBrokerRepository
     {
         return await _context.Brokers.FindAsync(id);
     }
+
+    public async Task DeleteAsync(Broker broker)
+    {
+        _context.Brokers.Remove(broker);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<bool> HasPurchasesAsync(Guid id)
+    {
+        return await _context.Purchases.AnyAsync(p => p.BrokerId == id);
+    }
 }

@@ -1,6 +1,7 @@
 using ShareTracker.Application.DTOs;
 using ShareTracker.Application.Interfaces;
 using ShareTracker.Domain.Entities;
+using ShareTracker.Domain.Enums;
 
 namespace ShareTracker.Application.Services;
 
@@ -57,5 +58,17 @@ public class SecurityService : ISecurityService
             Exchange = security.Exchange,
             Currency = security.Currency
         };
+    }
+
+    public async Task<DeleteResult> DeleteAsync(Guid id)
+    {
+        var security = await _repository.GetByIdAsync(id);
+        if (security == null) return DeleteResult.NotFound;
+
+        var hasPurchases = await _repository.HasPurchasesAsync(id);
+        if (hasPurchases) return DeleteResult.Conflict;
+
+        await _repository.DeleteAsync(security);
+        return DeleteResult.Success;
     }
 }

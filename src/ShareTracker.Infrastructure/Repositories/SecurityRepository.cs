@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using ShareTracker.Application.Interfaces;
 using ShareTracker.Domain.Entities;
@@ -28,5 +29,16 @@ public class SecurityRepository : ISecurityRepository
     public async Task<Security?> GetByIdAsync(Guid id)
     {
         return await _context.Securities.FindAsync(id);
+    }
+
+    public async Task DeleteAsync(Security security)
+    {
+        _context.Securities.Remove(security);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<bool> HasPurchasesAsync(Guid id)
+    {
+        return await _context.Purchases.AnyAsync(p => p.SecurityId == id);
     }
 }

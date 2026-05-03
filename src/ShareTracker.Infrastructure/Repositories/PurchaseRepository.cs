@@ -35,4 +35,10 @@ public class PurchaseRepository : IPurchaseRepository
                             .Include(p => p.Broker)
                             .FirstOrDefaultAsync(p => p.Id == id);
     }
+
+    public async Task DeleteAsync(Purchase purchase)
+    {
+        _context.Purchases.Remove(purchase);
+        await _context.SaveChangesAsync();
+    }
 }

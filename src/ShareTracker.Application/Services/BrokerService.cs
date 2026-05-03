@@ -1,6 +1,7 @@
 using ShareTracker.Application.DTOs;
 using ShareTracker.Application.Interfaces;
 using ShareTracker.Domain.Entities;
+using ShareTracker.Domain.Enums;
 
 namespace ShareTracker.Application.Services;
 
@@ -43,5 +44,17 @@ public class BrokerService : IBrokerService
         {
             Name = broker.Name
         };
+    }
+
+    public async Task<DeleteResult> DeleteAsync(Guid id)
+    {
+        var broker = await _repository.GetByIdAsync(id);
+        if (broker == null) return DeleteResult.NotFound;
+
+        var hasPurchases = await _repository.HasPurchasesAsync(id);
+        if (hasPurchases) return DeleteResult.Conflict;
+
+        await _repository.DeleteAsync(broker);
+        return DeleteResult.Success;
     }
 }

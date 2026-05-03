@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ShareTracker.Application.DTOs;
 using ShareTracker.Application.Interfaces;
+using ShareTracker.Domain.Enums;
 
 namespace ShareTracker.API.Controllers;
 
@@ -35,5 +36,18 @@ public class PurchasesController : ControllerBase
         var purchase = await _purchaseService.GetByIdAsync(id);
         if (purchase == null) return NotFound();
         return Ok(purchase);
+    }
+
+    
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var result = await _purchaseService.DeleteAsync(id);
+        return result switch
+        {
+            DeleteResult.Success  => NoContent(),
+            DeleteResult.NotFound => NotFound(),
+            _ => throw new InvalidOperationException()
+        };
     }
 }
