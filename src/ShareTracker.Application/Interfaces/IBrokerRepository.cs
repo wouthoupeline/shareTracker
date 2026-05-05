@@ -9,4 +9,5 @@ public interface IBrokerRepository
     Task<Broker?> GetByIdAsync(Guid id);
     Task DeleteAsync(Broker broker);
     Task<bool> HasPurchasesAsync(Guid id);
+    Task SaveAsync();
 }

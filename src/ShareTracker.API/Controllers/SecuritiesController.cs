@@ -38,6 +38,18 @@ public class SecuritiesController : ControllerBase
         return Ok(security);
     }
 
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(Guid id, UpdateSecurityRequest request)
+    {
+        var (result, data) = await _securityService.UpdateAsync(id, request);
+        return result switch
+        {
+            UpdateResult.Success  => Ok(data),
+            UpdateResult.NotFound => NotFound(),
+            _ => throw new InvalidOperationException()
+        };
+    }
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {

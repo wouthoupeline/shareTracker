@@ -39,6 +39,18 @@ public class BrokersController : ControllerBase
     }
 
     
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(Guid id, UpdateBrokerRequest request)
+    {
+        var (result, data) = await _brokerService.UpdateAsync(id, request);
+        return result switch
+        {
+            UpdateResult.Success  => Ok(data),
+            UpdateResult.NotFound => NotFound(),
+            _ => throw new InvalidOperationException()
+        };
+    }
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {

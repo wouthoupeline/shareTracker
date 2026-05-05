@@ -60,6 +60,30 @@ public class SecurityService : ISecurityService
         };
     }
 
+    public async Task<(UpdateResult Result, SecurityResponse? Data)> UpdateAsync(Guid id, UpdateSecurityRequest request)
+    {
+        var security = await _repository.GetByIdAsync(id);
+        if (security == null) return (UpdateResult.NotFound, null);
+
+        security.Ticker = request.Ticker;
+        security.Name = request.Name;
+        security.Type = request.Type;
+        security.Exchange = request.Exchange;
+        security.Currency = request.Currency;
+
+        await _repository.SaveAsync();
+
+        return (UpdateResult.Success, new SecurityResponse
+        {
+            Id = security.Id,
+            Ticker = security.Ticker,
+            Name = security.Name,
+            Type = security.Type,
+            Exchange = security.Exchange,
+            Currency = security.Currency
+        });
+    }
+
     public async Task<DeleteResult> DeleteAsync(Guid id)
     {
         var security = await _repository.GetByIdAsync(id);

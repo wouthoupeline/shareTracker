@@ -40,4 +40,9 @@ public class BrokerRepository : IBrokerRepository
     {
         return await _context.Purchases.AnyAsync(p => p.BrokerId == id);
     }
+
+    public async Task SaveAsync()
+    {
+        await _context.SaveChangesAsync();
+    }
 }

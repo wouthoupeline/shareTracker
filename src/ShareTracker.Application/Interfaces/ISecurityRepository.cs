@@ -9,4 +9,5 @@ public interface ISecurityRepository
     Task<Security?> GetByIdAsync(Guid id);
     Task DeleteAsync(Security security);
     Task<bool> HasPurchasesAsync(Guid id);
+    Task SaveAsync();
 }

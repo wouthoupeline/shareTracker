@@ -41,4 +41,9 @@ public class SecurityRepository : ISecurityRepository
     {
         return await _context.Purchases.AnyAsync(p => p.SecurityId == id);
     }
+
+    public async Task SaveAsync()
+    {
+        await _context.SaveChangesAsync();
+    }
 }

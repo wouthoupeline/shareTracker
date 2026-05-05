@@ -9,4 +9,5 @@ public interface ISecurityService
     Task<IEnumerable<SecurityResponse>> GetAllAsync();
     Task<SecurityResponse?> GetByIdAsync(Guid id);
     Task<DeleteResult> DeleteAsync(Guid id);
+    Task<(UpdateResult Result, SecurityResponse? Data)> UpdateAsync(Guid id, UpdateSecurityRequest request);
 }

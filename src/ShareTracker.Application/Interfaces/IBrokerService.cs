@@ -9,4 +9,5 @@ public interface IBrokerService
     Task<IEnumerable<BrokerResponse>> GetAllAsync();
     Task<BrokerResponse?> GetByIdAsync(Guid id);
     Task<DeleteResult> DeleteAsync(Guid id);
+    Task<(UpdateResult Result, BrokerResponse? Data)> UpdateAsync(Guid id, UpdateBrokerRequest request);
 }

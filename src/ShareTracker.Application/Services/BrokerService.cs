@@ -31,6 +31,7 @@ public class BrokerService : IBrokerService
         var brokers = await _repository.GetAllAsync();
         return brokers.Select(b => new BrokerResponse
         {
+            Id = b.Id,
             Name = b.Name,
         });
     }
@@ -42,8 +43,25 @@ public class BrokerService : IBrokerService
 
         return new BrokerResponse
         {
+            Id = broker.Id,
             Name = broker.Name
         };
+    }
+
+    public async Task<(UpdateResult Result, BrokerResponse? Data)> UpdateAsync(Guid id, UpdateBrokerRequest request)
+    {
+        var broker = await _repository.GetByIdAsync(id);
+        if (broker == null) return (UpdateResult.NotFound, null);
+
+        broker.Name = request.Name;
+
+        await _repository.SaveAsync();
+
+        return (UpdateResult.Success, new BrokerResponse
+        {
+            Id = broker.Id,
+            Name = broker.Name
+        });
     }
 
     public async Task<DeleteResult> DeleteAsync(Guid id)
