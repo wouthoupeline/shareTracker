@@ -1,6 +1,8 @@
+using ShareTracker.Domain.Enums;
+
 namespace ShareTracker.Application.DTOs;
 
-public class PurchaseResponse
+public class TransactionResponse
 {
     public Guid Id { get; set; }
     public Guid SecurityId { get; set; }
@@ -11,4 +13,5 @@ public class PurchaseResponse
     public DateTime Date { get; set; }
     public decimal PricePerShare { get; set; }
     public decimal Quantity { get; set; }
+    public TransactionType Type { get; set; }
 }

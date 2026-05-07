@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using ShareTracker.Domain.Enums;
 
 namespace ShareTracker.Application.DTOs;
 
-public class UpdatePurchaseRequest
+public class CreateTransactionRequest
 {
     [Required]
     public Guid? SecurityId { get; set; }
@@ -14,4 +15,6 @@ public class UpdatePurchaseRequest
     public decimal PricePerShare { get; set; }
     [Range(0.01, double.MaxValue)]
     public decimal Quantity { get; set; }
+    [Required]
+    public TransactionType? Type { get; set; }
 }

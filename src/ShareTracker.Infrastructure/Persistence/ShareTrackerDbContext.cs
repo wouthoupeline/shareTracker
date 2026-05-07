@@ -11,5 +11,5 @@ public class ShareTrackerDbContext : DbContext
 
     public DbSet<Security> Securities { get; set; }
     public DbSet<Broker> Brokers { get; set; }
-    public DbSet<Purchase> Purchases { get; set; }
+    public DbSet<Transaction> Transactions { get; set; }
 }

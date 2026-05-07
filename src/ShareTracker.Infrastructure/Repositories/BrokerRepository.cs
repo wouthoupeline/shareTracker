@@ -38,7 +38,7 @@ public class BrokerRepository : IBrokerRepository
 
     public async Task<bool> HasPurchasesAsync(Guid id)
     {
-        return await _context.Purchases.AnyAsync(p => p.BrokerId == id);
+        return await _context.Transactions.AnyAsync(t => t.BrokerId == id);
     }
 
     public async Task SaveAsync()

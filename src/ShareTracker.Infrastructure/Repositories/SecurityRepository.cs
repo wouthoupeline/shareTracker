@@ -39,7 +39,7 @@ public class SecurityRepository : ISecurityRepository
 
     public async Task<bool> HasPurchasesAsync(Guid id)
     {
-        return await _context.Purchases.AnyAsync(p => p.SecurityId == id);
+        return await _context.Transactions.AnyAsync(t => t.SecurityId == id);
     }
 
     public async Task SaveAsync()
