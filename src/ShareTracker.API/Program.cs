@@ -18,6 +18,7 @@ builder.Services.AddScoped<IBrokerRepository, BrokerRepository>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddHttpClient<IPricingService, AlphaVantagePricingService>();
+builder.Services.AddScoped<IAnalyticsService, AnalyticsService>();
 
 var app = builder.Build();
 

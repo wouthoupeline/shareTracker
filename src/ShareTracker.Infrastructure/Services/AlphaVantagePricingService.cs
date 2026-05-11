@@ -32,8 +32,14 @@ public class AlphaVantagePricingService : IPricingService
 
         using var doc = JsonDocument.Parse(response);
         var root = doc.RootElement;
-        var quote = root.GetProperty("Global Quote");
-        var priceString = quote.GetProperty("05. price").GetString();
+
+        if (!root.TryGetProperty("Global Quote", out var quote))
+            return null;
+
+        if (!quote.TryGetProperty("05. price", out var priceElement))
+            return null;
+
+        var priceString = priceElement.GetString();
 
         if (!decimal.TryParse(priceString, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out var priceValue))
             return null;
