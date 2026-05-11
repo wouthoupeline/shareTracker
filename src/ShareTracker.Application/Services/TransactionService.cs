@@ -28,7 +28,7 @@ public class TransactionService : ITransactionService
             Id = Guid.NewGuid(),
             SecurityId = request.SecurityId!.Value,
             BrokerId = request.BrokerId!.Value,
-            Date = request.Date!.Value,
+            Date = DateTime.SpecifyKind(request.Date!.Value, DateTimeKind.Utc),
             PricePerShare = request.PricePerShare,
             Quantity = request.Quantity,
             Type = request.Type!.Value,
@@ -89,7 +89,7 @@ public class TransactionService : ITransactionService
 
         transaction.SecurityId = request.SecurityId!.Value;
         transaction.BrokerId = request.BrokerId!.Value;
-        transaction.Date = request.Date!.Value;
+        transaction.Date = DateTime.SpecifyKind(request.Date!.Value, DateTimeKind.Utc);
         transaction.PricePerShare = request.PricePerShare;
         transaction.Quantity = request.Quantity;
         transaction.Type = request.Type!.Value;
