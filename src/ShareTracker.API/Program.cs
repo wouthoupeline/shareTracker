@@ -3,6 +3,7 @@ using ShareTracker.Infrastructure.Persistence;
 using ShareTracker.Application.Interfaces;
 using ShareTracker.Application.Services;
 using ShareTracker.Infrastructure.Repositories;
+using ShareTracker.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,7 @@ builder.Services.AddScoped<IBrokerService, BrokerService>();
 builder.Services.AddScoped<IBrokerRepository, BrokerRepository>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+builder.Services.AddHttpClient<IPricingService, AlphaVantagePricingService>();
 
 var app = builder.Build();
 
